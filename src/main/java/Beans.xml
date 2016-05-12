@@ -13,6 +13,7 @@
     default-init-method="init" default-destroy-method="destroy">
 
    <context:annotation-config/>
+   <bean class="test.test2.Config" />
 
    <!-- Definition for profile bean -->
    <bean id="profile" class="test.test2.Profile">
@@ -36,7 +37,7 @@
    
    <aop:config>
       <aop:aspect ref="logging">
-         <aop:pointcut id="all" expression="execution(* test.test2.*.*(..))" />
+         <!-- <aop:pointcut id="all" expression="execution(* test.test2.*.*(..))" />
          <aop:before pointcut-ref="all" method="beforeAdvice"/>
          <aop:after pointcut-ref="all" method="afterAdvice"/>
          <aop:after-returning pointcut-ref="all" 
@@ -44,7 +45,25 @@
                               method="afterReturningAdvice"/>
          <aop:after-throwing pointcut-ref="all" 
                              throwing="ex"
+                             method="AfterThrowingAdvice"/> -->
+         <!-- <aop:pointcut id="prs" expression="execution(* test.test2.Person.*(..))" />
+         <aop:before pointcut-ref="prs" method="beforeAdvice"/>
+         <aop:after pointcut-ref="prs" method="afterAdvice"/>
+         <aop:after-returning pointcut-ref="prs" 
+                              returning="retVal"
+                              method="afterReturningAdvice"/>
+         <aop:after-throwing pointcut-ref="prs" 
+                             throwing="ex"
                              method="AfterThrowingAdvice"/>
+         <aop:pointcut id="pro" expression="execution(* test.test2.Profile.*(..))" />
+         <aop:before pointcut-ref="pro" method="beforeAdvice"/>
+         <aop:after pointcut-ref="pro" method="afterAdvice"/>
+         <aop:after-returning pointcut-ref="pro" 
+                              returning="retVal"
+                              method="afterReturningAdvice"/>
+         <aop:after-throwing pointcut-ref="pro" 
+                             throwing="ex"
+                             method="AfterThrowingAdvice"/> -->
       </aop:aspect>
    </aop:config>
 
