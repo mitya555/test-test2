@@ -56,10 +56,10 @@ public class Test {
 		
 		System.out.println(l.stream()
 				.sorted((o1,o2) -> Integer.parseInt(o1.value)-Integer.parseInt(o2.value))
-				.map(Object::toString)
+				.map(/*Object::toString*/ (NV nv) -> nv.toString())
 //				.collect(Collectors.joining(", ", "[", "]")));
 				.collect(StringBuilder::new,
-						(_a,_s)->{if(_a.length()>0){_a.append(", ").append(_s);}else{_a.append(_s);}},
+						(StringBuilder _a, String _s)->{if(_a.length()>0){_a.append(", ").append(_s);}else{_a.append(_s);}},
 //						new BiConsumer<StringBuilder, String>() {
 //							@Override
 //							public void accept(StringBuilder t, String u) {
