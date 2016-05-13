@@ -1,5 +1,12 @@
 package test.test2;
 
+import java.sql.ResultSetMetaData;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Optional;
+
 //import java.sql.ResultSet;
 //import java.sql.SQLException;
 
@@ -22,11 +29,22 @@ public class App
         profile.printName();
         
         JdbcTemplate jdbc = (JdbcTemplate) context.getBean("jdbc");
-        jdbc.query("SELECT table_name FROM information_schema.tables /*WHERE table_schema = ?*/;",
+        jdbc.query("SELECT * FROM information_schema.tables /*WHERE table_schema = ?*/;",
         		new Object[] {/*"%"*/},
         		(rs, rowNum) -> {
-        			System.out.println(rowNum + ": " + rs.getString(1));
-        			return null;
+        			System.out.println(rowNum + ": " +
+//        					rs.getString("table_catalog") + "." + 
+        					rs.getString("table_schema") + "." + 
+        					rs.getString("table_name"));
+        			String[] res = null;
+        			if (rowNum == 0) {
+        				ResultSetMetaData m = rs.getMetaData();
+        				res = new String[m.getColumnCount()];
+						for (int i = 1; i <= m.getColumnCount(); i++) {
+							res[i - 1] = m.getColumnName(i) + ": " + m.getColumnTypeName(i);
+						}
+        			}
+        			return res;
         		}
         		/*new RowMapper<Object>() {
 
@@ -35,7 +53,7 @@ public class App
 						System.out.println(rowNum + ": " + rs.getString(1));
 						return null;
 					}
-				}*/);
+				}*/).stream().findFirst().ifPresent((String[] m) -> Arrays.stream(m).forEach(System.out::println));
         
         context.registerShutdownHook();
     }
