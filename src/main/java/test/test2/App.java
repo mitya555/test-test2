@@ -1,11 +1,11 @@
 package test.test2;
 
 import java.sql.ResultSetMetaData;
-import java.sql.SQLException;
-import java.util.ArrayList;
+//import java.sql.SQLException;
+//import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
+//import java.util.List;
+//import java.util.Optional;
 
 //import java.sql.ResultSet;
 //import java.sql.SQLException;
@@ -29,8 +29,8 @@ public class App
         profile.printName();
         
         JdbcTemplate jdbc = (JdbcTemplate) context.getBean("jdbc");
-        jdbc.query("SELECT * FROM information_schema.tables /*WHERE table_schema = ?*/;",
-        		new Object[] {/*"%"*/},
+        jdbc.query("SELECT * FROM information_schema.tables /*WHERE table_name = ?*/ /*WHERE table_schema = ?*/;",
+        		new Object[] {/*"%"*//*"test"*/},
         		(rs, rowNum) -> {
         			System.out.println(rowNum + ": " +
 //        					rs.getString("table_catalog") + "." + 
@@ -54,6 +54,9 @@ public class App
 						return null;
 					}
 				}*/).stream().findFirst().ifPresent((String[] m) -> Arrays.stream(m).forEach(System.out::println));
+        
+        if (jdbc.queryForObject("select count(*) from information_schema.tables WHERE table_name = 'test'", int.class) == 0)
+        	jdbc.execute("create table test ( id serial, name varchar(100), value int)");
         
         context.registerShutdownHook();
     }
