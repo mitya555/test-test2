@@ -1,0 +1,27 @@
+apply plugin: 'java'
+apply plugin: 'maven'
+
+group = 'test2'
+version = '0.0.1-SNAPSHOT'
+
+description = """test"""
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+tasks.withType(JavaCompile) {
+	options.encoding = 'UTF-8'
+}
+
+repositories {        
+     maven { url "http://repo.maven.apache.org/maven2" }
+}
+
+dependencies {
+    compile group: 'org.springframework', name: 'spring-core', version:'4.2.5.RELEASE'
+    compile group: 'org.springframework', name: 'spring-context', version:'4.2.5.RELEASE'
+    compile group: 'org.springframework', name: 'spring-aspects', version:'4.2.5.RELEASE'
+    compile group: 'org.springframework', name: 'spring-jdbc', version:'4.2.5.RELEASE'
+    compile group: 'org.postgresql', name: 'postgresql', version:'9.4.1208'
+    testCompile group: 'junit', name: 'junit', version:'3.8.1'
+}
